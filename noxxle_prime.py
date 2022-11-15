@@ -68,7 +68,6 @@ rapid_feedrate_label.grid(row=8, column=0, padx=(5, 0))
 rapid_feedrate_entry = ttk.Entry(entry_frame)
 rapid_feedrate_entry.grid(row=8, column=1)
 
-
 nozzle_diameter_label = ttk.Label(entry_frame, text="Nozzle diameter:")
 nozzle_diameter_label.grid(row=6, column=2, padx=(5, 0))
 nozzle_diameter_entry = ttk.Entry(entry_frame)
@@ -120,9 +119,9 @@ button_frame.grid(row=10, column=4, sticky=tk.E, padx=(0,5), pady=(0,5))
 
 
 def make_macro():
+    """Puts all the lines in the output text widget
+    """    
     e_move = extrusion_calculation()
-    print(e_move)
-    print(type(e_move))
     x_start = start_x_entry.get()
     y_start = start_y_entry.get()
     x_end = ending_x_entry.get()
@@ -166,7 +165,11 @@ def make_macro():
 
 
 def extrusion_calculation():
-    """Calculates the resulting extrusion number"""
+    """Calculates extrusion number
+
+    Returns:
+        e (float): extrusion distance
+    """    
     try:
         D = float(nozzle_diameter_entry.get())
         W = float(line_width_factor_entry.get()) * D
@@ -187,6 +190,11 @@ def extrusion_calculation():
 
 
 def line_length():
+    """Calculates line distance
+
+    Returns:
+        float: line distance
+    """    
     x1 = float(start_x_entry.get())
     y1 = float(start_y_entry.get())
     x2 = float(ending_x_entry.get())
@@ -195,11 +203,21 @@ def line_length():
 
 
 def copy_result():
+    """Copies result to clipboard
+    """    
     result = output_text_box.get("1.0", tk.END)
     root.clipboard_clear()
     root.clipboard_append(result)
 
 def set_width(text_box):
+    """Calculates length in characters of the longest line in the text box widget
+
+    Args:
+        text_box (tk text widget): Text box widget
+
+    Returns:
+        m (int): length of longest line
+    """    
     line_num = int(text_box.index('end-1c').split('.')[0])
     m = 0
     for i in range(line_num):
