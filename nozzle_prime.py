@@ -1,5 +1,4 @@
 """
-_summary_
 This tool generates a nozzle prime macro for Klipper.
 The GUI includes necessary entries and explainations.
 Quesitons or comments can be sent to irtrail@gmail.com
