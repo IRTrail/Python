@@ -8,7 +8,7 @@ import math
 import tkinter as tk
 from tkinter import ttk
 
-from ttkthemes import THEMES, ThemedTk
+from ttkthemes import ThemedTk
 
 # Set up the main window
 root = ThemedTk(theme="breeze")
