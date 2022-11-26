@@ -126,8 +126,8 @@ def make_macro():
     x_end = ending_x_entry.get()
     y_end = ending_y_entry.get()
     z_height = layer_height_entry.get()
-    rapid = rapid_feedrate_entry.get()
-    feed = feedrate_entry.get()
+    rapid = float(rapid_feedrate_entry.get())
+    feed = float(feedrate_entry.get())
     retract = retract_entry.get()
     tab = "\t"
 
@@ -140,24 +140,24 @@ def make_macro():
     output_text_box.insert(tk.END, f"\n{tab}G92 E0   ; Reset Extruder")
     output_text_box.insert(
         tk.END,
-        f"\n{tab}G0 X{x_start} Y{y_start} Z10. F{rapid}{tab}{tab}; Move to start position",
+        f"\n{tab}G0 X{x_start} Y{y_start} Z10. F{rapid * 60}{tab}{tab}; Move to start position",
     )
     output_text_box.insert(
         tk.END,
-        f"\n{tab}G1 X{x_start} Y{y_start} Z2. F{int(rapid)/2}",
+        f"\n{tab}G1 X{x_start} Y{y_start} Z2. F{int(rapid * 60)/2}",
     )
     output_text_box.insert(
         tk.END,
-        f"\n{tab}G1 X{x_start} Y{y_start} Z{z_height} F{feed}",
+        f"\n{tab}G1 X{x_start} Y{y_start} Z{z_height} F{feed * 60}",
     )
     output_text_box.insert(
         tk.END,
-        f"\n{tab}G1 X{x_end} Y{y_end} Z{z_height} F{feed} E{e_move}{tab}{tab}; Purge nozzle",
+        f"\n{tab}G1 X{x_end} Y{y_end} Z{z_height} F{feed * 60} E{e_move}{tab}{tab}; Purge nozzle",
     )
     output_text_box.insert(tk.END, f"\n{tab}E-{retract} F1800{tab}{tab}; Retract")
     output_text_box.insert(tk.END, f"\n{tab}G92 E0{tab}{tab}; Reset Extruder")
     output_text_box.insert(
-        tk.END, f"\n{tab}G1 Z2. F{rapid}{tab}{tab}; Move Z up to prevent scratching"
+        tk.END, f"\n{tab}G1 Z2. F{rapid * 60}{tab}{tab}; Move Z up to prevent scratching"
     )
     output_text_box.insert(tk.END, f"\n{tab}M117 {m117_end_entry.get()}")
     #output_text_box.configure(width=set_width(output_text_box)*3)
