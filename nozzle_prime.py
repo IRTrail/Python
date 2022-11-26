@@ -152,7 +152,7 @@ def make_macro():
     )
     output_text_box.insert(
         tk.END,
-        f"\n{tab}G1{x_end} Y{y_end} Z{z_height} F{feed} E{e_move}{tab}{tab}; Purge nozzle",
+        f"\n{tab}G1 X{x_end} Y{y_end} Z{z_height} F{feed} E{e_move}{tab}{tab}; Purge nozzle",
     )
     output_text_box.insert(tk.END, f"\n{tab}E-{retract} F1800{tab}{tab}; Retract")
     output_text_box.insert(tk.END, f"\n{tab}G92 E0{tab}{tab}; Reset Extruder")
