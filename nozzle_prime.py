@@ -7,7 +7,6 @@ Quesitons or comments can be sent to irtrail@gmail.com
 import math
 import tkinter as tk
 from tkinter import ttk
-
 from ttkthemes import ThemedTk
 
 # Set up the main window
@@ -121,46 +120,34 @@ def make_macro():
     """Puts all the lines in the output text widget
     """    
     e_move = extrusion_calculation()
-    x_start = start_x_entry.get()
-    y_start = start_y_entry.get()
-    x_end = ending_x_entry.get()
-    y_end = ending_y_entry.get()
-    z_height = layer_height_entry.get()
+    x_start = float(start_x_entry.get())
+    y_start = float(start_y_entry.get())
+    x_end = float(ending_x_entry.get())
+    y_end = float(ending_y_entry.get())
+    z_height = float(layer_height_entry.get())
     rapid = float(rapid_feedrate_entry.get())
     feed = float(feedrate_entry.get())
-    retract = retract_entry.get()
+    retract = float(retract_entry.get())
     tab = "\t"
 
-    output_text_box.insert(tk.END, "[gcode_macro NOZZLE_PRIME]")
-    output_text_box.insert(tk.END, f'\n# Nozzle Prime Macro created by:')
-    output_text_box.insert(tk.END, f'\n# Nozzle Prime Macro Maker')
-    output_text_box.insert(tk.END, f'\n# https://github.com/IRTrail/Apps')
-    output_text_box.insert(tk.END, f'\ngcode:')
-    output_text_box.insert(tk.END, f"\n{tab}M117 {m117_start_entry.get()}")
-    output_text_box.insert(tk.END, f"\n{tab}G92 E0   ; Reset Extruder")
-    output_text_box.insert(
-        tk.END,
-        f"\n{tab}G0 X{x_start} Y{y_start} Z10. F{rapid * 60}{tab}{tab}; Move to start position",
-    )
-    output_text_box.insert(
-        tk.END,
-        f"\n{tab}G1 X{x_start} Y{y_start} Z2. F{int(rapid * 60)/2}",
-    )
-    output_text_box.insert(
-        tk.END,
-        f"\n{tab}G1 X{x_start} Y{y_start} Z{z_height} F{feed * 60}",
-    )
-    output_text_box.insert(
-        tk.END,
-        f"\n{tab}G1 X{x_end} Y{y_end} Z{z_height} F{feed * 60} E{e_move}{tab}{tab}; Purge nozzle",
-    )
-    output_text_box.insert(tk.END, f"\n{tab}E-{retract} F1800{tab}{tab}; Retract")
-    output_text_box.insert(tk.END, f"\n{tab}G92 E0{tab}{tab}; Reset Extruder")
-    output_text_box.insert(
-        tk.END, f"\n{tab}G1 Z2. F{rapid * 60}{tab}{tab}; Move Z up to prevent scratching"
-    )
-    output_text_box.insert(tk.END, f"\n{tab}M117 {m117_end_entry.get()}")
-    #output_text_box.configure(width=set_width(output_text_box)*3)
+    file_text = [
+        f"[gcode_macro NOZZLE_PRIME]",
+        f"# Nozzle Prime Macro created by:",
+        f"# Nozzle Prime Macro Maker",
+        f"# https://github.com/IRTrail/Apps",
+        f"gcode:",
+        f"{tab}M117 {m117_start_entry.get()}",
+        f"{tab}G92 E0{tab * 9};Reset Extruder",
+        f"{tab}G0 X{x_start} Y{y_start} Z10. F{rapid * 60}{tab * 5}; Move to start position",
+        f"{tab}G1 X{x_start} Y{y_start} Z2. F{(rapid * 60)/2}",
+        f"{tab}G1 X{x_start} Y{y_start} Z{z_height:.3g} F{feed * 60}",
+        f"{tab}G1 X{x_end} Y{y_end} Z{z_height:.3g} F{feed * 60} E{e_move:.3f}{tab * 3}; Purge nozzle",
+        f"{tab}E-{retract:.3g} F1800{tab * 8}; Retract",
+        f"{tab}G92 E0{tab * 9}; Reset Extruder",
+        f"{tab}G1 Z2. F{rapid * 60}{tab * 7}; Move Z up to prevent scratching",
+        f"{tab}M117 {m117_end_entry.get()}",
+    ]
+    output_text_box.insert(tk.END, "\n".join(file_text))
 
 
 def extrusion_calculation():
